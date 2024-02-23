@@ -1,0 +1,23 @@
+{
+  "neodev": {
+    "library": {
+      "enabled": true,
+      "runtime": true,
+      "plugins": true
+    },
+    "pathStrict": false
+  },
+  "neoconf": {
+    "plugins": {
+      "lua_ls": {
+        "enabled": true,
+        "enabled_for_neovim_config": true
+      }
+    }
+  },
+  "lspconfig": {
+    "lua_ls": {
+      "Lua.runtime.pathStrict": false
+    }
+  }
+}
