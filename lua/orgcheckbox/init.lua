@@ -69,20 +69,24 @@ M.toggle_checkbox = function()
 	local is_list, has_checkbox, bullet_node = inspect_node()
 	local current_position = vim.api.nvim_win_get_cursor(0)
 
-	---@diagnostic disable-next-line: need-check-nil
-	local row, col, _ = bullet_node:start()
-
 	if bullet_node then
-		vim.api.nvim_win_set_cursor(0, { row + 1, col })
+		local bullet_row, bullet_col, _ = bullet_node:start()
+
+		vim.api.nvim_win_set_cursor(0, { bullet_row + 1, bullet_col })
 
 		if is_list and has_checkbox then
 			vim.cmd("normal! ^t[4x")
-			if current_position[1] == row + 1 then
-				current_position[2] = current_position[2] - 4
+
+			-- Move the cursor if we are on the same line than the bullet
+			-- and we are after the checkbox
+			if current_position[1] == bullet_row + 1 and current_position[2] > 4 then
+				current_position[2] = current_position[2]
 			end
 		elseif is_list then
 			vim.cmd("normal! ^a [ ]")
-			if current_position[1] == row + 1 then
+
+			-- Move the cursor if we are on the same line than the bullet
+			if current_position[1] == bullet_row + 1 then
 				current_position[2] = current_position[2] + 4
 			end
 		end
